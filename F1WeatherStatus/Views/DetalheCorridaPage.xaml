@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:BasePage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                xmlns:views="clr-namespace:F1WeatherStatus.Views"
+                xmlns:models="clr-namespace:F1WeatherStatus.Models"
+                x:Class="F1WeatherStatus.Views.DetalheCorridaPage"
+                x:DataType="views:DetalheCorridaPage"
+                Title="Resultado">
+
+    <Grid Padding="20,20,20,0">
+        <CollectionView x:Name="ListaResultado" SelectionMode="None">
+            <!-- Os cartões vão no cabeçalho para rolar junto com o resultado -->
+            <CollectionView.Header>
+                <VerticalStackLayout Spacing="10" Padding="0,0,0,10">
+                    <!-- OpenF1: dados da corrida -->
+                    <Border Style="{StaticResource Cartao}">
+                        <VerticalStackLayout Spacing="4">
+                            <Label x:Name="LblTitulo" Style="{StaticResource Titulo}" />
+                            <Label x:Name="LblCircuito" Style="{StaticResource Subtitulo}" />
+                            <Label x:Name="LblData" Style="{StaticResource Subtitulo}" />
+                            <Label x:Name="LblOficial" Style="{StaticResource Subtitulo}" FontSize="12" IsVisible="False" />
+                            <Label x:Name="LblTipoCircuito" Style="{StaticResource Rotulo}" IsVisible="False" />
+                            <Image x:Name="ImgCircuito" HeightRequest="140" Aspect="AspectFit" IsVisible="False" />
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <ActivityIndicator IsRunning="{Binding Carregando}" IsVisible="{Binding Carregando}" />
+
+                    <!-- Geocoding + Open-Meteo + IP: clima no dia da corrida e distância até você -->
+                    <Border x:Name="CartaoExtras" Style="{StaticResource Cartao}" IsVisible="False"
+                            Stroke="{StaticResource Vermelho}" StrokeThickness="2" Padding="18"
+                            StrokeShape="RoundRectangle 16">
+                        <VerticalStackLayout Spacing="8">
+                            <Label x:Name="LblClimaTitulo" Text="Clima no circuito" FontSize="14" FontAttributes="Bold"
+                                   TextColor="{StaticResource Vermelho}" />
+                            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="16">
+                                <Label x:Name="LblIcone" FontSize="48" VerticalOptions="Center" />
+                                <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="2">
+                                    <Label x:Name="LblTemperaturaCorrida" FontSize="32" FontAttributes="Bold"
+                                           TextColor="{StaticResource Vermelho}" />
+                                    <Label x:Name="LblDescricaoCorrida" FontSize="16" FontAttributes="Bold" />
+                                </VerticalStackLayout>
+                            </Grid>
+                            <Label x:Name="LblClimaCorrida" Style="{StaticResource Subtitulo}" />
+                            <Label x:Name="LblDistancia" Style="{StaticResource Subtitulo}" />
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <Label x:Name="LblResumo" Style="{StaticResource Subtitulo}" />
+                </VerticalStackLayout>
+            </CollectionView.Header>
+            <CollectionView.EmptyView>
+                <Label x:Name="LblVazio" Text="Sem resultado disponível."
+                       HorizontalOptions="Center" Margin="0,20" />
+            </CollectionView.EmptyView>
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:ResultadoPiloto">
+                    <Border Style="{StaticResource Cartao}" Margin="0,0,0,8" Padding="10">
+                        <Grid ColumnDefinitions="44,6,*,Auto" ColumnSpacing="10">
+                            <Label Text="{Binding PosicaoTexto}" FontSize="20" FontAttributes="Bold"
+                                   VerticalOptions="Center" HorizontalOptions="Center" />
+                            <BoxView Grid.Column="1" Color="{Binding CorEquipe}" CornerRadius="3" />
+                            <VerticalStackLayout Grid.Column="2" VerticalOptions="Center">
+                                <Label Text="{Binding Nome}" FontAttributes="Bold" />
+                                <Label Text="{Binding Detalhe}" Style="{StaticResource Subtitulo}" FontSize="12" />
+                            </VerticalStackLayout>
+                            <Label Grid.Column="3" Text="{Binding Tempo}" VerticalOptions="Center" />
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
+</views:BasePage>

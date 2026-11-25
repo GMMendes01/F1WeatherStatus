@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<Shell xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+       xmlns:views="clr-namespace:F1WeatherStatus.Views"
+       x:Class="F1WeatherStatus.AppShell"
+       Title="F1WeatherStatus"
+       FlyoutBehavior="Flyout"
+       FlyoutBackgroundColor="White"
+       Shell.BackgroundColor="{StaticResource Primaria}"
+       Shell.ForegroundColor="White"
+       Shell.TitleColor="White"
+       Shell.TabBarBackgroundColor="White"
+       Shell.TabBarForegroundColor="{StaticResource Primaria}"
+       Shell.TabBarTitleColor="{StaticResource Primaria}"
+       Shell.TabBarUnselectedColor="{StaticResource Cinza}">
+
+    <Shell.FlyoutHeader>
+        <VerticalStackLayout Padding="20,30" BackgroundColor="{StaticResource Primaria}">
+            <Label Text="F1WeatherStatus" FontSize="24" FontAttributes="Bold" TextColor="White" />
+            <Label Text="Clima, localização, IBGE e Fórmula 1" TextColor="White" />
+        </VerticalStackLayout>
+    </Shell.FlyoutHeader>
+
+    <!-- Menu lateral (Flyout) -> item com ABAS (Tabs) -->
+    <FlyoutItem Title="Tempo e Local" Route="inicio">
+        <ShellContent Title="Localização" Route="localizacao"
+                      ContentTemplate="{DataTemplate views:LocalizacaoPage}" />
+        <ShellContent Title="Clima" Route="clima"
+                      ContentTemplate="{DataTemplate views:ClimaPage}" />
+    </FlyoutItem>
+
+    <!-- Estados -> Detalhe do estado usa navegação em PILHA (Stack) -->
+    <FlyoutItem Title="Estados (IBGE)" Route="ibge">
+        <ShellContent Title="Estados" Route="estados"
+                      ContentTemplate="{DataTemplate views:EstadosPage}" />
+    </FlyoutItem>
+
+    <!-- Corridas -> Detalhe da corrida usa navegação em PILHA (Stack) -->
+    <FlyoutItem Title="Fórmula 1" Route="f1">
+        <ShellContent Title="Corridas" Route="corridas"
+                      ContentTemplate="{DataTemplate views:CorridasPage}" />
+        <ShellContent Title="Ranking" Route="ranking"
+                      ContentTemplate="{DataTemplate views:RankingPage}" />
+    </FlyoutItem>
+
+</Shell>

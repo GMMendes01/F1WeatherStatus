@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:BasePage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                xmlns:views="clr-namespace:F1WeatherStatus.Views"
+                x:Class="F1WeatherStatus.Views.LocalizacaoPage"
+                x:DataType="views:LocalizacaoPage"
+                Title="Minha localização">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="14">
+
+            <Label Text="Onde você está" Style="{StaticResource Titulo}" />
+            <Label Text="Seu IP leva ao estado (IBGE) e ao clima de agora (Open-Meteo)."
+                   Style="{StaticResource Subtitulo}" />
+
+            <ActivityIndicator IsRunning="{Binding Carregando}" IsVisible="{Binding Carregando}" />
+
+            <!-- 1) API de IP -->
+            <Border x:Name="CartaoLocal" Style="{StaticResource Cartao}" IsVisible="False">
+                <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto"
+                      ColumnSpacing="12" RowSpacing="10">
+
+                    <Label Grid.Row="0" Text="IP" Style="{StaticResource Rotulo}" />
+                    <Label Grid.Row="0" Grid.Column="1" x:Name="LblIp" />
+
+                    <Label Grid.Row="1" Text="Local" Style="{StaticResource Rotulo}" />
+                    <Label Grid.Row="1" Grid.Column="1" x:Name="LblCidade" />
+
+                    <Label Grid.Row="2" Text="Coordenadas" Style="{StaticResource Rotulo}" />
+                    <Label Grid.Row="2" Grid.Column="1" x:Name="LblCoordenadas" />
+
+                    <Label Grid.Row="3" Text="Fuso horário" Style="{StaticResource Rotulo}" />
+                    <Label Grid.Row="3" Grid.Column="1" x:Name="LblFuso" />
+
+                    <Label Grid.Row="4" Text="Provedor" Style="{StaticResource Rotulo}" />
+                    <Label Grid.Row="4" Grid.Column="1" x:Name="LblProvedor" />
+
+                    <Label Grid.Row="5" Text="Fonte" Style="{StaticResource Rotulo}" />
+                    <Label Grid.Row="5" Grid.Column="1" x:Name="LblFonte" />
+                </Grid>
+            </Border>
+
+            <!-- 2) IBGE: estado correspondente ao IP -->
+            <Border x:Name="CartaoEstado" Style="{StaticResource Cartao}" IsVisible="False">
+                <VerticalStackLayout Spacing="4">
+                    <Label Text="Seu estado (IBGE)" Style="{StaticResource Rotulo}" />
+                    <Label x:Name="LblEstado" FontSize="18" Style="{StaticResource Destaque}" />
+                    <Label x:Name="LblEstadoResumo" Style="{StaticResource Subtitulo}" />
+                    <Button Text="Ver município e clima do estado" Clicked="OnVerEstadoClicked" Margin="0,8,0,0" />
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- 3) Open-Meteo: clima atual nas coordenadas do IP -->
+            <Border x:Name="CartaoClima" Style="{StaticResource Cartao}" IsVisible="False" WidthRequest="400">
+                <VerticalStackLayout Spacing="4">
+                    <Label Text="Clima agora aí" Style="{StaticResource Rotulo}" />
+                    <Label x:Name="LblTemperatura" FontSize="36" Style="{StaticResource Destaque}" />
+                    <Label x:Name="LblClima" />
+                    <Label x:Name="LblClimaDetalhe" Style="{StaticResource Subtitulo}" />
+                </VerticalStackLayout>
+            </Border>
+            <HorizontalStackLayout HorizontalOptions="Center">
+            <Button Text="Atualizar" Clicked="OnAtualizarClicked" />
+            <Button x:Name="BtnVerClima" Text="Ver previsão completa (aba Clima)"
+                    Clicked="OnVerClimaClicked" IsEnabled="False" />
+            </HorizontalStackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
+</views:BasePage>

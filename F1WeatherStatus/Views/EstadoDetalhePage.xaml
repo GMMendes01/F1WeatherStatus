@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:BasePage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                xmlns:views="clr-namespace:F1WeatherStatus.Views"
+                xmlns:models="clr-namespace:F1WeatherStatus.Models"
+                x:Class="F1WeatherStatus.Views.EstadoDetalhePage"
+                x:DataType="views:EstadoDetalhePage"
+                Title="Estado">
+
+    <Grid RowDefinitions="Auto,Auto,Auto,Auto,*" Padding="20,20,20,0" RowSpacing="10">
+
+        <!-- IBGE: dados do estado -->
+        <Border Style="{StaticResource Cartao}">
+            <VerticalStackLayout Spacing="4">
+                <Label x:Name="LblNome" Style="{StaticResource Titulo}" />
+                <Label x:Name="LblResumo" Style="{StaticResource Subtitulo}" />
+            </VerticalStackLayout>
+        </Border>
+
+        <ActivityIndicator Grid.Row="1" IsRunning="{Binding Carregando}" IsVisible="{Binding Carregando}" />
+
+        <!-- Geocoding + Open-Meteo: clima do lugar escolhido (capital ou município) -->
+        <Border Grid.Row="2" x:Name="CartaoClima" Style="{StaticResource Cartao}" IsVisible="False">
+            <VerticalStackLayout Spacing="4">
+                <Label x:Name="LblLugar" Style="{StaticResource Rotulo}" FontSize="16" />
+                <Label x:Name="LblTemperatura" FontSize="34" Style="{StaticResource Destaque}" />
+                <Label x:Name="LblClima" />
+                <Label x:Name="LblClimaDetalhe" Style="{StaticResource Subtitulo}" />
+            </VerticalStackLayout>
+        </Border>
+
+        <SearchBar Grid.Row="3" x:Name="BuscaMunicipios" Placeholder="Buscar município (toque para ver o clima)"
+                   TextChanged="OnBuscaTextChanged" />
+
+        <CollectionView Grid.Row="4" x:Name="ListaMunicipios" SelectionMode="Single"
+                        SelectionChanged="OnMunicipioSelecionado">
+            <CollectionView.Header>
+                <Label x:Name="LblTotal" Style="{StaticResource Subtitulo}" Margin="0,0,0,6" />
+            </CollectionView.Header>
+            <CollectionView.EmptyView>
+                <Label Text="Nenhum município encontrado." HorizontalOptions="Center" Margin="0,20" />
+            </CollectionView.EmptyView>
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:Municipio">
+                    <Border Style="{StaticResource Cartao}" Margin="0,0,0,6" Padding="12">
+                        <Label Text="{Binding Nome}" FontSize="15" />
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
+</views:BasePage>

@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:BasePage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                xmlns:views="clr-namespace:F1WeatherStatus.Views"
+                xmlns:models="clr-namespace:F1WeatherStatus.Models"
+                x:Class="F1WeatherStatus.Views.ClimaPage"
+                x:DataType="views:ClimaPage"
+                Title="Clima">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="14">
+
+            <Label Text="Consulta do clima" Style="{StaticResource Titulo}" />
+            <Label Text="Busque uma cidade pelo nome ou use a localização do seu IP."
+                   Style="{StaticResource Subtitulo}" />
+
+            <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
+                <Entry x:Name="EntCidade" Placeholder="Nome da cidade (ex.: Sorocaba)"
+                       Completed="OnBuscarCidadeClicked" />
+                <Button Grid.Column="1" Text="Buscar cidade" Clicked="OnBuscarCidadeClicked"
+                        BackgroundColor="{StaticResource Vermelho}" />
+            </Grid>
+
+            <Button Text="Usar minha localização" Clicked="OnMinhaLocalizacaoClicked"
+                    BackgroundColor="{StaticResource Vermelho}" />
+
+            <ActivityIndicator IsRunning="{Binding Carregando}" IsVisible="{Binding Carregando}" />
+
+            <Border x:Name="CartaoClima" Style="{StaticResource Cartao}" IsVisible="False">
+                <VerticalStackLayout Spacing="6">
+                    <Label x:Name="LblLocal" FontAttributes="Bold" FontSize="16" />
+                    <Label x:Name="LblTemperatura" FontSize="44" FontAttributes="Bold"
+                           TextColor="{StaticResource Vermelho}" />
+                    <Label x:Name="LblDescricao" FontSize="18" />
+                    <Label x:Name="LblDetalhes" Style="{StaticResource Subtitulo}" />
+                    <Label x:Name="LblAtualizado" Style="{StaticResource Subtitulo}" FontSize="12" />
+                </VerticalStackLayout>
+            </Border>
+
+            <Label x:Name="LblTituloPrevisao" Text="Próximos 7 dias"
+                   Style="{StaticResource Rotulo}" FontSize="16" IsVisible="False" />
+
+            <!-- BindableLayout (e não CollectionView) para funcionar dentro do ScrollView -->
+            <VerticalStackLayout x:Name="ListaPrevisao" Spacing="8">
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate x:DataType="models:PrevisaoDia">
+                        <Border Style="{StaticResource Cartao}" Padding="12">
+                            <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
+                                <VerticalStackLayout>
+                                    <Label Text="{Binding DiaTexto}" FontAttributes="Bold" />
+                                    <Label Text="{Binding Descricao}" Style="{StaticResource Subtitulo}" />
+                                </VerticalStackLayout>
+                                <Label Grid.Column="1" Text="{Binding Faixa}"
+                                       VerticalOptions="Center" FontSize="16" />
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </BindableLayout.ItemTemplate>
+            </VerticalStackLayout>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</views:BasePage>

@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:BasePage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                xmlns:views="clr-namespace:F1WeatherStatus.Views"
+                xmlns:models="clr-namespace:F1WeatherStatus.Models"
+                x:Class="F1WeatherStatus.Views.CorridasPage"
+                x:DataType="views:CorridasPage"
+                Title="Fórmula 1">
+
+    <Grid RowDefinitions="Auto,Auto,*" Padding="20,20,20,0" RowSpacing="10">
+
+        <Border Style="{StaticResource Cartao}" Padding="12,4" Stroke="{StaticResource Primaria}" StrokeThickness="2">
+            <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
+                <Label Text="Temporada" Style="{StaticResource Rotulo}" VerticalOptions="Center" />
+                <Picker Grid.Column="1" x:Name="PickerAno" Title="Toque para escolher o ano" TitleColor="Black"
+                        FontSize="18" FontAttributes="Bold" TextColor="Black"
+                        SelectedIndexChanged="OnAnoAlterado" />
+                <Label Grid.Column="2" Text="▼" FontSize="16" VerticalOptions="Center"
+                       TextColor="{StaticResource Primaria}" InputTransparent="True" />
+            </Grid>
+        </Border>
+
+        <ActivityIndicator Grid.Row="1" IsRunning="{Binding Carregando}" IsVisible="{Binding Carregando}" />
+
+        <CollectionView Grid.Row="2" x:Name="ListaCorridas" SelectionMode="Single"
+                        SelectionChanged="OnCorridaSelecionada">
+            <CollectionView.EmptyView>
+                <Label Text="Nenhuma corrida encontrada para esta temporada."
+                       HorizontalOptions="Center" Margin="0,20" />
+            </CollectionView.EmptyView>
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:Corrida">
+                    <Border Style="{StaticResource Cartao}" Margin="0,0,0,8" Padding="12">
+                        <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
+                            <VerticalStackLayout>
+                                <Label Text="{Binding Titulo}" FontAttributes="Bold" FontSize="16" />
+                                <Label Text="{Binding Circuito}" Style="{StaticResource Subtitulo}" />
+                                <Label Text="{Binding DataTexto}" Style="{StaticResource Subtitulo}" />
+                            </VerticalStackLayout>
+                            <Label Grid.Column="1" Text="{Binding Situacao}" VerticalOptions="Center"
+                                   TextColor="{StaticResource Primaria}" FontAttributes="Bold" />
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
+</views:BasePage>

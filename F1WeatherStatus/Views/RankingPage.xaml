@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<views:BasePage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                xmlns:views="clr-namespace:F1WeatherStatus.Views"
+                xmlns:models="clr-namespace:F1WeatherStatus.Models"
+                x:Class="F1WeatherStatus.Views.RankingPage"
+                x:DataType="views:RankingPage"
+                Title="Ranking de campeões">
+
+    <Grid RowDefinitions="Auto,Auto,*" Padding="20,20,20,0" RowSpacing="10">
+
+        <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
+            <Button x:Name="BtnPilotos" Text="Pilotos" Clicked="OnPilotosClicked" />
+            <Button Grid.Column="1" x:Name="BtnEquipes" Text="Equipes" Clicked="OnEquipesClicked" />
+        </Grid>
+
+        <Label Grid.Row="1" x:Name="LblExplicacao" Style="{StaticResource Subtitulo}" />
+
+        <CollectionView Grid.Row="2" x:Name="ListaRanking" SelectionMode="None">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:ItemRanking">
+                    <Border Style="{StaticResource Cartao}" Margin="0,0,0,8" Padding="12">
+                        <Grid ColumnDefinitions="44,*,Auto" ColumnSpacing="10">
+                            <Label Text="{Binding PosicaoTexto}" FontSize="20" FontAttributes="Bold"
+                                   VerticalOptions="Center" HorizontalOptions="Center" />
+                            <VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
+                                <Label Text="{Binding Nome}" FontAttributes="Bold" FontSize="16" />
+                                <Label Text="{Binding Anos}" Style="{StaticResource Subtitulo}" FontSize="12" />
+                            </VerticalStackLayout>
+                            <Label Grid.Column="2" Text="{Binding TitulosTexto}" VerticalOptions="Center"
+                                   TextColor="{StaticResource Primaria}" FontAttributes="Bold" />
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
+</views:BasePage>
